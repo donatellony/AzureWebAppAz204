@@ -3,24 +3,17 @@ using System.Data.SqlClient;
 
 namespace AzureWebApp.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-        private static string db_source = "";
-        private static string db_user = "";
-        private static string db_password = "";
-        private static string db_database = "";
+        private readonly IConfiguration _configuration;
+        public ProductService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         private SqlConnection GetConnection()
         {
-            var _builder = new SqlConnectionStringBuilder
-            {
-                DataSource = db_source,
-                UserID = db_user,
-                Password = db_password,
-                InitialCatalog = db_database
-            };
-
-            return new SqlConnection(_builder.ConnectionString);
+            return new SqlConnection(_configuration.GetConnectionString("SQLConnection"));
         }
 
         public List<Product> GetProducts()

@@ -9,17 +9,17 @@ namespace AzureWebApp.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         public List<Product> products;
+        private readonly IProductService _productService;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, IProductService productService)
         {
             _logger = logger;
+            _productService = productService;
         }
 
         public void OnGet()
         {
-            //ProductService service = new();
-            //products = service.GetProducts();
-            products = new List<Product>();
+            products = _productService.GetProducts();
         }
     }
 }
